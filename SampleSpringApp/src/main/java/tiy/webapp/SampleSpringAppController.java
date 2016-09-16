@@ -48,9 +48,8 @@ public class SampleSpringAppController {
     public String sendMessage(HttpSession session, String message) {
         session.setAttribute("message", message);
         System.out.println("Message: " + message);
-        WebChatClient chatClient = new WebChatClient();
-        String responseFromServer = chatClient.sendMessage(message);
-        System.out.println(responseFromServer);
+
+
         return "redirect:/chat";
     }
 
