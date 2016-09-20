@@ -5,19 +5,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-/**
- * Created by Yehia830 on 9/12/16.
- */
 public class WebChatClient {
+    Socket clientSocket;
+    PrintWriter out;
+    BufferedReader in;
+
+
+
     public String sendMessage(String message) {
         String serverResponse = null;
         try {
-            Socket clientSocket = new Socket("localhost", 8005);
-
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            createClientSocket();
 
             out.println(message);
             serverResponse = in.readLine();
@@ -27,14 +28,21 @@ public class WebChatClient {
         }
 
         return serverResponse;
+
+ //      return null;
     }
 
 
 
 
 
+    public void createClientSocket() throws IOException {
+        clientSocket = new Socket("localhost", 8005);
 
+        out = new PrintWriter(clientSocket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     }
+}
 
 
 

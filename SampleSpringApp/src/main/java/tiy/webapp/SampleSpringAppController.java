@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class SampleSpringAppController {
+    WebChatClient myChatClient;
     @RequestMapping(path = "/person-url", method = RequestMethod.GET)
     public String person(Model model, String name, String city, int age) {
 
@@ -38,7 +39,10 @@ public class SampleSpringAppController {
     // Input page
     @RequestMapping(path = "/chat", method = RequestMethod.GET)
     public String input(Model model, HttpSession session, String message) {
+        myChatClient = new WebChatClient();
+        String serverRepo = myChatClient.sendMessage(message);
 
+        model.addAttribute("serverRepo", serverRepo);
 
 
         return "input";
@@ -46,8 +50,12 @@ public class SampleSpringAppController {
 
     @RequestMapping(path = "/send", method = RequestMethod.POST)
     public String sendMessage(HttpSession session, String message) {
+        myChatClient = new WebChatClient();
+        String serverRepo = myChatClient.sendMessage(message);
+
         session.setAttribute("message", message);
         System.out.println("Message: " + message);
+        System.out.println("calling...");
 
 
         return "redirect:/chat";
